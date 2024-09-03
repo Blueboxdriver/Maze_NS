@@ -17,7 +17,7 @@ namespace Maze_NS
 
         public void PrintTile()
         {
-            Console.Write(isWall ? "# " : " ");
+            Console.Write(isWall ? "#" : " ");
         }
 
     }
