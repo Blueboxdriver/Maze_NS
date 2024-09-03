@@ -6,36 +6,18 @@ using System.Threading.Tasks;
 
 namespace Maze_NS
 {
-    public class Person
+    public class Tile
     {
-        private string name;
-        private int age;
+        private bool isWall { get; set; }
 
-        public Person(string initialName, int initialAge)
+        public Tile(bool isWall)
         {
-            this.age = initialAge;
-            this.name = initialName;
+            this.isWall = isWall;
         }
 
-        public void PrintPerson()
+        public void PrintTile()
         {
-            Console.WriteLine(this.name + ", age " + this.age + " years");
-        }
-
-        public void GrowOlder()
-        {
-            if (this.age >= 100)
-            {
-                Console.WriteLine("This is the end of the line, " + this.name + " There's no more aging for you. Life is finite, and you've reached the end.");
-            } else
-            {
-                this.age++;
-            }
-        }
-
-        public int GetAge()
-        {
-            return this.age;
+            Console.Write(isWall ? "# " : " ");
         }
 
     }

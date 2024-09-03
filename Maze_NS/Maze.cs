@@ -9,13 +9,17 @@ namespace Maze_NS
 {
     public class Maze
     {
-        private int[,] maze;
-        private object player; // just filler, replace string with the player object when made
+        private Tile[,] maze;
+        private int cols;
+        private int rows;
 
-        public Maze(int rows, int cols, object player)
+        public Maze(int rows, int columns)
         {
-            this.maze = new int[rows, cols];
-            this.player = player;
+            this.rows = rows;
+            this.cols = columns;
+            this.maze = new Tile[rows, columns];
+            //We'll call the generatemaze method when creating the object to save time.
+            GenerateMaze();
         }
 
         public void GenerateMaze()
@@ -26,17 +30,20 @@ namespace Maze_NS
             int cols = maze.GetLength(1);
 
             // finding the top and bottom borders.
-            for (int i = 0; i < cols; i++)
-            {
-                maze[0, i] = -1; // top border
-                maze[rows - 1, i] = -1; // bottom border
-            }
-
-            // finding the left and right borders
             for (int i = 0; i < rows; i++)
             {
-                maze[i, 0] = -1; // left border
-                maze[i, cols - 1] = -1; // right border
+                for (int j = 0; j < cols; j++)
+                {
+                    if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1 )
+                    {
+                        maze[i, j] = new Tile(true);
+                    } 
+                    else
+                    {
+                        maze[i, j] = new Tile(false);
+                    }
+
+                }
             }
         }
 
@@ -49,11 +56,8 @@ namespace Maze_NS
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    
-                    if (maze[i, j] == -1)
-                        Console.Write("# ");
-                    else
-                        Console.Write("  ");
+
+                    maze[i, j].PrintTile();
                 }
                 Console.WriteLine();
             }

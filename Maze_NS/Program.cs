@@ -17,15 +17,15 @@ namespace Maze_NS
             {
                 case 1:
                     Console.WriteLine("Easy maze selected");
-                    genMaze = new Maze(5, 5, 0);
+                    genMaze = new Maze(5, 5);
                     break;
                 case 2:
                     Console.WriteLine("Medium maze selected");
-                    genMaze = new Maze(10, 10, 0);
+                    genMaze = new Maze(10, 10);
                     break;
                 case 3:
                     Console.WriteLine("Hard maze selected");
-                    genMaze = new Maze(20, 20, 0);
+                    genMaze = new Maze(20, 20);
                     break;
                 default:
                     Console.WriteLine("How are you so stupid as to not type in the proper number? Try again.");
