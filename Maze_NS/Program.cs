@@ -13,7 +13,7 @@ namespace Maze_NS
 
             Maze genMaze = null; // Declare genMaze outside the switch statement
 
-            switch (difficulty)
+            switch (difficulty) // because i'm lazy the input is corresponds to the cases.
             {
                 case 1:
                     Console.WriteLine("Easy maze selected");
@@ -28,10 +28,10 @@ namespace Maze_NS
                     genMaze = new Maze(20, 20);
                     break;
                 default:
-                    Console.WriteLine("How are you so stupid as to not type in the proper number? Try again.");
+                    Console.WriteLine("How are you so stupid as to not type in the proper number? Try again."); // change this to be more friendly
                     return; // Exit the program if the choice is invalid
             }
-             genMaze.GenerateMaze();
+             genMaze.GenerateMaze(); // it's better to call the generatemaze method outside the switch to limit repeating code
              genMaze.PrintMaze();
             
         }

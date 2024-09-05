@@ -29,6 +29,14 @@ namespace Maze_NS
             int rows = maze.GetLength(0);
             int cols = maze.GetLength(1);
 
+            for (int i = 0; i < rows; i++) // there's probably a better way to do this, but this nested for loop essentially just fills the 2D array with tile objects
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    maze[i, j] = new Tile(true);
+                }
+            }
+
             // Nested for loop goes through the 2D array and then uses an if-statement to determine if the current array element is on the edge of the 2D array.
             for (int i = 0; i < rows; i++)
             {
@@ -36,13 +44,8 @@ namespace Maze_NS
                 {
                     if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1 ) // The selected element is on the edge of the 2D array if i(rows) or j(columns) is equal to 0 or is one less than the length of the 2d Array
                     {
-                        maze[i, j] = new Tile(true); //The Tile object for that element is flagged as a wall
-                    } 
-                    else
-                    {
-                        maze[i, j] = new Tile(false); // The tile object for that element is flagged as not a wall
+                        maze[i, j].SetWall(); //The Tile object for that element is flagged as a wall
                     }
-
                 }
             }
         }
@@ -56,7 +59,6 @@ namespace Maze_NS
             {
                 for (int j = 0; j < cols; j++)
                 {
-
                     maze[i, j].PrintTile();
                 }
                 Console.WriteLine();
