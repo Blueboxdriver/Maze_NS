@@ -1,65 +1,168 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Maze_NS
+﻿namespace Maze_NS
 {
     public class Maze
     {
-        private Tile[,] maze;
-        private int cols;
-        private int rows;
+        
+        private Tile[,] tiles;
+        private int width;
+        private int height;
+        private Random random = new Random();
+        private Player player;
+        
 
-        public Maze(int rows, int columns)
+        public Maze(int width, int height)
         {
-            this.rows = rows;
-            this.cols = columns;
-            this.maze = new Tile[rows, columns];
-            //We'll call the generatemaze method when creating the object to save time.
-            GenerateMaze();
+            this.width = width;
+            this.height = height;
+            tiles = new Tile[height, width];
+
+            GenMazeOutline();
+            GenerateMaze(1, 1);
+            PlaceExit();
+
+            player = new Player(1, 1);
         }
 
-        public void GenerateMaze()
+        public void GenMazeOutline()
         {
-            Random rand = new Random();
-
-            int rows = maze.GetLength(0);
-            int cols = maze.GetLength(1);
-
-            for (int i = 0; i < rows; i++) // there's probably a better way to do this, but this nested for loop essentially just fills the 2D array with tile objects
+            for (int y = 0; y < height; y++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int x = 0; x < width; x++)
                 {
-                    maze[i, j] = new Tile(true);
+                    tiles[y, x] = new Tile(true);
                 }
             }
+        }
 
-            // Nested for loop goes through the 2D array and then uses an if-statement to determine if the current array element is on the edge of the 2D array.
-            for (int i = 0; i < rows; i++)
+        private void GenerateMaze(int startX, int startY)
+        {
+            tiles[startY, startX].IsWall = false;
+            tiles[startY, startX].IsVisited = true;
+
+            foreach (var direction in GetRandomDirections())
             {
-                for (int j = 0; j < cols; j++)
+                int newX = startX + direction.Item1 * 2;
+                int newY = startY + direction.Item2 * 2;
+                
+                if (IsInBounds(newX, newY) && !tiles[newY, newX].IsVisited)
                 {
-                    if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1 ) // The selected element is on the edge of the 2D array if i(rows) or j(columns) is equal to 0 or is one less than the length of the 2d Array
+                    tiles[startY + direction.Item2, startX + direction.Item1].IsWall = false;
+                    
+                    GenerateMaze(newX, newY);
+                }
+            }
+        }
+
+        private List<(int, int)> GetRandomDirections()
+        {
+            var directions = new List<(int, int)>
+            {
+                (0, -1), // north
+                (0, 1), // south
+                (-1, 0), // west
+                (1, 0) // east
+            };
+
+            for (int i = directions.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                (directions[i], directions[j]) = (directions[j], directions[i]);
+            }
+
+            return directions;
+        }
+
+        private bool IsInBounds(int x, int y)
+        {
+            return x > 0 && y > 0 && x < width - 1 && y < height - 1;
+        }
+
+        public void MovePlayer(ConsoleKey key)
+        {
+            int newX = player.X;
+            int newY = player.Y;
+
+            switch (key)
+            {
+                case ConsoleKey.W:
+                    newY--;
+                    break;
+                case ConsoleKey.S:
+                    newY++;
+                    break;
+                case ConsoleKey.A:
+                    newX--;
+                    break;
+                case ConsoleKey.D:
+                    newX++;
+                    break;
+            }
+
+            if (IsInBounds(newX, newY) && !tiles[newY, newX].IsWall)
+            {
+                player.Move(newX, newY);
+            }
+        }
+
+        private void PlaceExit()
+        {
+            var ranX = random.Next(width);
+            var ranY = random.Next(height);
+
+            if (IsInBounds(ranX, ranY) && !tiles[ranX, ranY].IsWall)
+            {
+                tiles[ranX, ranY].IsExit = true;
+            }
+            else
+            {
+                PlaceExit();
+            }
+        }
+
+        public bool AtExit()
+        {
+            bool result = false;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (player.X == x && player.Y == y && tiles[y, x].IsExit)
                     {
-                        maze[i, j].SetWall(); //The Tile object for that element is flagged as a wall
-                    }
+                        result = true;
+                    } 
                 }
             }
+
+            return result;
         }
 
         public void PrintMaze()
         {
-            int rows = maze.GetLength(0);
-            int cols = maze.GetLength(1);
-
-            for (int i = 0; i < rows; i++)
+            for (int y = 0; y < height; y++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int x = 0; x < width; x++)
                 {
-                    maze[i, j].PrintTile();
+                    if (player.X == x && player.Y == y)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(" P ");
+                    }
+                    else if (tiles[y, x].IsWall)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(" # ");
+                    }
+                    else if (tiles[y, x].IsExit)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write(" E ");
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.Write(" _ "); 
+                    }
                 }
                 Console.WriteLine();
             }
