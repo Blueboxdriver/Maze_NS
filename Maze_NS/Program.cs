@@ -6,65 +6,70 @@ namespace Maze_NS
     {
         public static void Main(string[] args)
         {
-            bool playAgain = true;
-            string response;
-            while (playAgain)
+            bool gameInProgress = true;
+            string output = "";
+            ConsoleColor color = ConsoleColor.White;
+
+            Maze maze = new Maze(15, 15);
+
+            while (gameInProgress)
             {
-                Console.WriteLine("Welcome! How difficult do you want the maze?: ");
-                Console.WriteLine("(1): Easy | (2): Medium | (3): Hard");
-
-                int difficulty = Convert.ToInt32(Console.ReadLine());
-
-                Maze genMaze = null; // Declare genMaze outside the switch statement
-
-                switch (difficulty) // because i'm lazy the input is corresponds to the cases.
+                Console.Clear();
+                
+                for (int y = 0; y < maze.height; y++)
                 {
-                    case 1:
-                        Console.WriteLine("Easy maze selected");
-                        genMaze = new Maze(15, 15);
-                        break;
-                    case 2:
-                        Console.WriteLine("Medium maze selected");
-                        genMaze = new Maze(25, 25);
-                        break;
-                    case 3:
-                        Console.WriteLine("Hard maze selected");
-                        genMaze = new Maze(35, 35);
-                        break;
-                    default:
-                        Console.WriteLine(
-                            "How are you so stupid as to not type in the proper number? Try again."); // change this to be more friendly
-                        return; // Exit the program if the choice is invalid
+                    for (int x = 0; x < maze.width; x++)
+                    {
+                        var tile = maze.tiles[y, x];
+                        switch (tile)
+                        {
+                            case { IsWall: true }:
+                                output = " # ";
+                                color = ConsoleColor.Red;
+                                break;
+                            case { IsExit: true }:
+                                output = " E ";
+                                color = ConsoleColor.Blue;
+                                break;
+                            case { IsPlayer: true }:
+                                output = " P ";
+                                color = ConsoleColor.Green;
+                                break;
+                            case { IsMonster: true }:
+                                output = " M ";
+                                color = ConsoleColor.Magenta;
+                                break;
+                            case { IsItem: true }:
+                                output = " I ";
+                                color = ConsoleColor.Yellow;
+                                break;
+                            default:
+                                output = " _ ";
+                                color = ConsoleColor.White;
+                                break;
+                        }
+
+                        Console.ForegroundColor = color;
+                        Console.Write(output);
+                    }
+
+                    Console.WriteLine();
                 }
 
-                while (true)
+                // Wait for the player to press a movement key
+                var key = Console.ReadKey(true).Key;
+
+                // Move the player
+                maze.MovePlayer(key);
+
+                // Check if player reached the exit
+                if (maze.AtExit())
                 {
                     Console.Clear();
-                    genMaze.PrintMaze();
-
-                    ConsoleKey key = Console.ReadKey(true).Key;
-
-                    genMaze.MovePlayer(key);
-                    
-                    if (genMaze.AtExit())
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Congrats! You escaped the maze!");
-                        break;
-                    }
+                    Console.WriteLine("You've reached the exit! You win!");
+                    gameInProgress = false; // End the loop
                 }
-
-                Console.WriteLine("Would you like to play again? (y/n)");
-                response = Console.ReadLine();
-                if (response.Equals("y"))
-                {
-                    playAgain = true;
-                }
-                else
-                {
-                    playAgain = false;
-                }
-
+                Console.ResetColor();
             }
         }
     }

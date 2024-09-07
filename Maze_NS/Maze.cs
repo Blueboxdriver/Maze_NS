@@ -1,13 +1,13 @@
 ﻿namespace Maze_NS
 {
-    public class Maze
+    public class Maze : Tile
     {
         
-        private Tile[,] tiles;
-        private int width;
-        private int height;
+        public Tile[,] tiles;
+        public int width;
+        public int height;
         private Random random = new Random();
-        private Player player;
+        public Player player;
         
         public Maze(int width, int height)
         {
@@ -33,6 +33,8 @@
                     tiles[y, x] = new Tile(true);
                 }
             }
+
+            tiles[1, 1].IsPlayer = true;
         }
 
         private void GenerateMaze(int startX, int startY)
@@ -80,6 +82,9 @@
 
         public void MovePlayer(ConsoleKey key)
         {
+            int oldY = player.Y;
+            int oldX = player.X;
+            
             int newX = player.X;
             int newY = player.Y;
 
@@ -101,8 +106,11 @@
 
             if (IsInBounds(newX, newY) && !tiles[newY, newX].IsWall)
             {
+                tiles[oldY, oldX].IsPlayer = false;
+                
                 player.Move(newX, newY);
-                player.TakeDamage(10);
+
+                tiles[newY, newX].IsPlayer = true;
             }
         }
 
@@ -160,48 +168,6 @@
                     placedItems++;
                 }
             }
-        }
-
-        public void PrintMaze()
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (player.X == x && player.Y == y)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write(" P ");
-                    }
-                    else if (tiles[y, x].IsWall)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write(" # ");
-                    }
-                    else if (tiles[y, x].IsExit)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.Write(" E ");
-                    }
-                    else if (tiles[y, x].IsMonster)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.Write(" M ");
-                    }
-                    else if (tiles[y, x].IsItem)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write(" I ");
-                    }
-                    else
-                    {
-                        Console.ResetColor();
-                        Console.Write(" _ "); 
-                    }
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine($"Player Health: {player.Health}\n");
         }
     }
 }
