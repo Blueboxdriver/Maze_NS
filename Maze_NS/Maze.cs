@@ -9,7 +9,6 @@
         private Random random = new Random();
         private Player player;
         
-
         public Maze(int width, int height)
         {
             this.width = width;
@@ -18,12 +17,14 @@
 
             GenMazeOutline();
             GenerateMaze(1, 1);
+            
             PlaceExit();
-
+            PlaceMonsters(Convert.ToInt32((width * height) / 35));
+            PlaceItems(Convert.ToInt32((width * height) / 35));
             player = new Player(1, 1);
         }
 
-        public void GenMazeOutline()
+        private void GenMazeOutline()
         {
             for (int y = 0; y < height; y++)
             {
@@ -39,7 +40,7 @@
             tiles[startY, startX].IsWall = false;
             tiles[startY, startX].IsVisited = true;
 
-            foreach (var direction in GetRandomDirections())
+            foreach ((int, int) direction in GetRandomDirections())
             {
                 int newX = startX + direction.Item1 * 2;
                 int newY = startY + direction.Item2 * 2;
@@ -52,10 +53,10 @@
                 }
             }
         }
-
+        
         private List<(int, int)> GetRandomDirections()
         {
-            var directions = new List<(int, int)>
+            List<(int, int)> directions = new List<(int, int)>
             {
                 (0, -1), // north
                 (0, 1), // south
@@ -101,22 +102,13 @@
             if (IsInBounds(newX, newY) && !tiles[newY, newX].IsWall)
             {
                 player.Move(newX, newY);
+                player.TakeDamage(10);
             }
         }
 
         private void PlaceExit()
         {
-            var ranX = random.Next(width);
-            var ranY = random.Next(height);
-
-            if (IsInBounds(ranX, ranY) && !tiles[ranX, ranY].IsWall)
-            {
-                tiles[ranX, ranY].IsExit = true;
-            }
-            else
-            {
-                PlaceExit();
-            }
+            tiles[height - 2, width - 2].IsExit = true;
         }
 
         public bool AtExit()
@@ -133,8 +125,41 @@
                     } 
                 }
             }
-
             return result;
+        }
+
+        private void PlaceMonsters(int amount)
+        {
+            int placedMonsters = 0;
+
+            while (placedMonsters <= amount)
+            {
+                int x = random.Next(1, width - 1);
+                int y = random.Next(1, height - 1);
+
+                if (!tiles[y, x].IsWall && !tiles[y, x].IsExit)
+                {
+                    tiles[y, x].IsMonster = true;
+                    placedMonsters++;
+                }
+            }
+        }
+        
+        private void PlaceItems(int amount)
+        {
+            int placedItems = 0;
+
+            while (placedItems <= amount)
+            {
+                int x = random.Next(1, width - 1);
+                int y = random.Next(1, height - 1);
+
+                if (!tiles[y, x].IsWall && !tiles[y, x].IsExit)
+                {
+                    tiles[y, x].IsItem = true;
+                    placedItems++;
+                }
+            }
         }
 
         public void PrintMaze()
@@ -158,6 +183,16 @@
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.Write(" E ");
                     }
+                    else if (tiles[y, x].IsMonster)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write(" M ");
+                    }
+                    else if (tiles[y, x].IsItem)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write(" I ");
+                    }
                     else
                     {
                         Console.ResetColor();
@@ -166,6 +201,7 @@
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine($"Player Health: {player.Health}\n");
         }
     }
 }

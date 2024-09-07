@@ -45,7 +45,7 @@ namespace Maze_NS
                     ConsoleKey key = Console.ReadKey(true).Key;
 
                     genMaze.MovePlayer(key);
-
+                    
                     if (genMaze.AtExit())
                     {
                         Console.Clear();
