@@ -114,7 +114,7 @@
             }
         }
 
-        private void PlaceExit()
+        private void PlaceExit() // test
         {
             tiles[height - 2, width - 2].IsExit = true;
         }

@@ -2,7 +2,7 @@ namespace Maze_NS;
 
 public class Monster : ICharacter
 {
-    public int X { get; set; }
+    public int X { get; set; } //test
     public int Y { get; set; }
     
     public int Health { get; set; }

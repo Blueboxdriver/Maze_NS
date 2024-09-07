@@ -18,7 +18,7 @@ namespace Maze_NS
                 
                 for (int y = 0; y < maze.height; y++)
                 {
-                    for (int x = 0; x < maze.width; x++)
+                    for (int x = 0; x < maze.width; x++) // test
                     {
                         var tile = maze.tiles[y, x];
                         switch (tile)

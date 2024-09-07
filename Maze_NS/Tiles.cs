@@ -6,7 +6,7 @@
         public bool IsVisited { get; set; }
         public bool IsItem { get; set; }
         public bool IsMonster { get; set; }
-        public bool IsExit { get; set; }
+        public bool IsExit { get; set; } //test
         public bool IsPlayer { get; set; }
 
         public Tile(bool isWall = true)

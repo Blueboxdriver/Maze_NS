@@ -2,7 +2,7 @@ namespace Maze_NS;
 
 public class Player : ICharacter
 {
-    public int Health { get; set; }
+    public int Health { get; set; } //test
     public int X { get; private set; }
     public int Y { get; private set; }
     
