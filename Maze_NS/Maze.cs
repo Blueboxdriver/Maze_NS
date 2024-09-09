@@ -8,7 +8,6 @@
         public int height;
         private Random random = new Random();
         public Player Player;
-        public Monster Monster;
         
         public Maze(int width, int height)
         {

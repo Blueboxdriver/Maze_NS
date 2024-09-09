@@ -11,6 +11,7 @@ namespace Maze_NS
             string output = "";
             ConsoleColor color = ConsoleColor.White;
             ConsoleKey action;
+            Monster monster = new Monster("", 0);
 
             Maze maze = null;
 
@@ -87,14 +88,14 @@ namespace Maze_NS
                 {
                     battleInProgress = true;
                     gameInProgress = false;
-                    Monster monster = new Monster("Erlking Heathcliffe", 100);
+                    monster = Monster.GenerateMonster();
                     Console.Clear();
                     do
                     {
                         Console.Clear();
                         Console.WriteLine($"You have encountered: {monster.Type} | {monster.Health} HP\n\n");
                         Console.WriteLine($"You have {maze.Player.Health} HP");
-                        Console.WriteLine("What do you want to do? [1] Attack | [2] Defend | [3] Talk");
+                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Talk");
                         
                         action = Console.ReadKey(true).Key;
 
@@ -102,19 +103,46 @@ namespace Maze_NS
                         {
                             case ConsoleKey.D1:
                                 maze.Player.InflictDamage(monster);
-                                Console.WriteLine($"You attacked for: 10 Damage!");
-                                Console.WriteLine("Press SPACE to continue.");
+                                Console.WriteLine($"You attacked for: 10 Damage!\n");
+                                
+                                if (monster.IsStunned)
+                                {
+                                    Console.WriteLine($"{monster.Type} is stunned, therefore {monster.Type} cannot retaliate!\n");
+                                    monster.IsStunned = false;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"{monster.Type} retaliates for: 10 Damage!\n");
+                                    monster.InflictDamage(maze.Player);
+                                }
+                                Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;
                                 break;
+                            
                             case ConsoleKey.D2:
-                                Console.Write("Not Built Yet.");
+                                Console.WriteLine($"You stunned {monster.Type}!\n");
+                                monster.IsStunned = true;
+                                Console.WriteLine("Press any key to continue.");
+                                action = Console.ReadKey().Key;
+                                break;
+                            
+                            case ConsoleKey.D3:
+                                Console.WriteLine($"You try to reason with {monster.Type}");
+                                Console.WriteLine($"{monster.Type}: " + monster.GetTalk() + "\n");
+                                Console.WriteLine("Press any key to continue.");
+                                action = Console.ReadKey().Key;
                                 break;
                         }
                         
-                        if (!monster.IsAlive())
+                        if (monster.Health <= 0)
                         {
                             maze.RemoveMonster();
                             gameInProgress = true;
+                            battleInProgress = false;
+                        }
+                        else if (maze.Player.Health <= 0)
+                        {
+                            gameInProgress = false;
                             battleInProgress = false;
                         }
                         else
@@ -131,6 +159,12 @@ namespace Maze_NS
                     Console.WriteLine("You've reached the exit! You win!");
                     Console.WriteLine($"Player Health: {maze.Player.GetHealth()}");
                     gameInProgress = false;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("You've died, game over.");
+                    Console.WriteLine($"Killed by: {monster.Type}");
                 }
                 Console.ResetColor();
             }
