@@ -8,6 +8,7 @@
         public bool IsMonster { get; set; }
         public bool IsExit { get; set; } //test
         public bool IsPlayer { get; set; }
+        public Monster Monster { get; set; }
 
         public Tile(bool isWall = true)
         {
@@ -16,6 +17,7 @@
             IsVisited = false;
             IsExit = false;
             IsMonster = false;
+            Monster = null;
         }
     }
 }

@@ -23,9 +23,14 @@ public class Player : ICharacter
     {
         Health -= damage;
     }
-    public string getHealth()
+    public string GetHealth()
     {
         return Health.ToString();
+    }
+    
+    public void InflictDamage(Monster monster)
+    {
+        monster.Health -= 10;
     }
     
 }

@@ -4,18 +4,33 @@ public class Monster : ICharacter
 {
     public int X { get; set; } //test
     public int Y { get; set; }
-    
     public int Health { get; set; }
+    public string Type { get; set; }
 
-    public Monster(int x, int y, int health = 100)
+    public Monster(string type, int health)
     {
+        Type = type;
         Health = health;
-        X = x;
-        Y = y;
     }
-    
     private void TakeDamage(int damage)
     {
         Health -= damage;
+    }
+
+    public bool IsAlive()
+    {
+        if (Health > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public void InflictDamage(Player player)
+    {
+        player.Health -= 10;
     }
 }

@@ -8,4 +8,9 @@ public interface ICharacter
     private void TakeDamage()
     {
     }
+
+    public void InflictDamage(Player player, Monster monster)
+    {
+        
+    }
 }

@@ -7,7 +7,8 @@
         public int width;
         public int height;
         private Random random = new Random();
-        public Player player;
+        public Player Player;
+        public Monster Monster;
         
         public Maze(int width, int height)
         {
@@ -21,7 +22,7 @@
             PlaceExit();
             PlaceMonsters(Convert.ToInt32((width * height) / 35));
             PlaceItems(Convert.ToInt32((width * height) / 35));
-            player = new Player(1, 1);
+            Player = new Player(1, 1);
         }
 
         private void GenMazeOutline()
@@ -82,11 +83,11 @@
 
         public void MovePlayer(ConsoleKey key)
         {
-            int oldY = player.Y;
-            int oldX = player.X;
+            int oldY = Player.Y;
+            int oldX = Player.X;
             
-            int newX = player.X;
-            int newY = player.Y;
+            int newX = Player.X;
+            int newY = Player.Y;
 
             switch (key)
             {
@@ -108,7 +109,7 @@
             {
                 tiles[oldY, oldX].IsPlayer = false;
                 
-                player.Move(newX, newY);
+                Player.Move(newX, newY);
 
                 tiles[newY, newX].IsPlayer = true;
             }
@@ -127,13 +128,45 @@
             {
                 for (int x = 0; x < width; x++)
                 {
-                    if (player.X == x && player.Y == y && tiles[y, x].IsExit)
+                    if (Player.X == x && Player.Y == y && tiles[y, x].IsExit && tiles[y, x].IsPlayer) 
                     {
                         result = true;
                     } 
                 }
             }
             return result;
+        }
+
+        public bool AtMonster()
+        {
+            bool result = false;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (Player.X == x && Player.Y == y && tiles[y, x].IsMonster && tiles[y, x].IsPlayer)
+                    {
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public void RemoveMonster()
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (Player.X == x && Player.Y == y && tiles[y, x].IsMonster && tiles[y, x].IsPlayer)
+                    {
+                        tiles[y, x].IsMonster = false;
+                    }
+                }
+            }
         }
 
         private void PlaceMonsters(int amount)
@@ -145,7 +178,7 @@
                 int x = random.Next(1, width - 1);
                 int y = random.Next(1, height - 1);
 
-                if (!tiles[y, x].IsWall && !tiles[y, x].IsExit)
+                if (!tiles[y, x].IsWall && !tiles[y, x].IsExit && !tiles[y, x].IsPlayer)
                 {
                     tiles[y, x].IsMonster = true;
                     placedMonsters++;
