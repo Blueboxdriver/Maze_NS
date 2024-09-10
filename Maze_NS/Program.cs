@@ -1,19 +1,12 @@
-﻿using System;
-
-namespace Maze_NS
+﻿namespace Maze_NS
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            bool gameInProgress = true;
-            bool battleInProgress = false;
-            string output = "";
-            ConsoleColor color = ConsoleColor.White;
-            ConsoleKey action;
             Monster monster = new Monster("", 0);
 
-            Maze maze = null;
+            Maze maze = null!;
 
             Console.WriteLine("Welcome to the Maze game, please select the maze's difficulty.");
             Console.WriteLine("Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35) [3] | Grader Must Die (55x55): [4]");
@@ -36,7 +29,7 @@ namespace Maze_NS
                     break;
             }
             
-            while (gameInProgress)
+            while (maze.GameInProgress)
             {
                 Console.Clear();
                 
@@ -45,6 +38,8 @@ namespace Maze_NS
                     for (int x = 0; x < maze.width; x++) // test
                     {
                         var tile = maze.tiles[y, x];
+                        string output;
+                        var color = ConsoleColor.White;
                         switch (tile)
                         {
                             case { IsWall: true }:
@@ -80,22 +75,23 @@ namespace Maze_NS
                     Console.WriteLine();
                 }
                 
-                action = Console.ReadKey(true).Key;
+                var action = Console.ReadKey(true).Key;
                 
                 maze.MovePlayer(action);
 
                 if (maze.AtMonster())
                 {
-                    battleInProgress = true;
-                    gameInProgress = false;
+                    maze.BattleInProgress = true;
+                    maze.GameInProgress = false;
                     monster = Monster.GenerateMonster();
+                    
                     Console.Clear();
                     do
                     {
                         Console.Clear();
                         Console.WriteLine($"You have encountered: {monster.Type} | {monster.Health} HP\n\n");
                         Console.WriteLine($"You have {maze.Player.Health} HP");
-                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Talk");
+                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Talk\n");
                         
                         action = Console.ReadKey(true).Key;
 
@@ -127,7 +123,7 @@ namespace Maze_NS
                                 break;
                             
                             case ConsoleKey.D3:
-                                Console.WriteLine($"You try to reason with {monster.Type}");
+                                Console.WriteLine($"You try to reason with {monster.Type}\n");
                                 Console.WriteLine($"{monster.Type}: " + monster.GetTalk() + "\n");
                                 Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;
@@ -137,20 +133,20 @@ namespace Maze_NS
                         if (monster.Health <= 0)
                         {
                             maze.RemoveMonster();
-                            gameInProgress = true;
-                            battleInProgress = false;
+                            maze.GameInProgress = true;
+                            maze.BattleInProgress = false;
                         }
                         else if (maze.Player.Health <= 0)
                         {
-                            gameInProgress = false;
-                            battleInProgress = false;
+                            maze.GameInProgress = false;
+                            maze.BattleInProgress = false;
                         }
                         else
                         {
-                            gameInProgress = false;
-                            battleInProgress = true;
+                            maze.GameInProgress = false;
+                            maze.BattleInProgress = true;
                         }
-                    } while (battleInProgress);
+                    } while (maze.BattleInProgress);
                 }
                 
                 if (maze.AtExit())
@@ -158,7 +154,7 @@ namespace Maze_NS
                     Console.Clear();
                     Console.WriteLine("You've reached the exit! You win!");
                     Console.WriteLine($"Player Health: {maze.Player.GetHealth()}");
-                    gameInProgress = false;
+                    maze.GameInProgress = false;
                 }
                 else
                 {

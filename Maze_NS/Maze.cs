@@ -3,17 +3,21 @@
     public class Maze : Tile
     {
         
-        public Tile[,] tiles;
-        public int width;
-        public int height;
+        public Tile[,] tiles { get; set; }
+        public int width { get; set; }
+        public int height { get; set; }
         private Random random = new Random();
-        public Player Player;
+        public Player Player { get; set; }
+        public bool GameInProgress { get; set; }
+        public bool BattleInProgress { get; set; }
         
         public Maze(int width, int height)
         {
             this.width = width;
             this.height = height;
             tiles = new Tile[height, width];
+            GameInProgress = true;
+            BattleInProgress = false;
 
             GenMazeOutline();
             GenerateMaze(1, 1);
