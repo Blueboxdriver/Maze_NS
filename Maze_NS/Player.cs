@@ -8,6 +8,7 @@ public class Player : ICharacter
     public int Y { get; private set; }
     
     public List<Item> Inventory = new List<Item>();
+    public Weapon currentWeapon;
     
     public Player(int startX, int startY, int health = 100)
     {
@@ -15,11 +16,14 @@ public class Player : ICharacter
         Y = startY;
         Health = health;
         BaseDam = 10;
+        Weapon defaultWeapon = new Weapon("Basic Baton", "A baton you found when you woke up.", 10);
+        Inventory.Add(defaultWeapon);
+        EquipWeapon(defaultWeapon);
     }
 
-    public void boostDamage(double amount)
+    public void BoostDamage(double amount)
     {
-        BaseDam += BaseDam * amount;
+        BaseDam = amount;
     }
 
     public void Move(int newX, int newY)
@@ -41,6 +45,16 @@ public class Player : ICharacter
     {
         monster.Health -= Convert.ToInt32(BaseDam);
     }
-    
 
+    public void EquipWeapon(Weapon newWeapon)
+    {
+        if (currentWeapon != null)
+        {
+            BaseDam /= currentWeapon.Damageboost;
+        }
+
+        currentWeapon = newWeapon;
+
+        BoostDamage(newWeapon.Damageboost);
+    }
 }

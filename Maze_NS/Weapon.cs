@@ -2,15 +2,15 @@ namespace Maze_NS;
 
 public class Weapon : Item
 {
-    private double Damageboost { get; set; }
+    public double Damageboost { get; private set; }
 
-    public Weapon(string desc, string pickupMessage, double damageboost) : base(desc, pickupMessage)
+    public Weapon(string desc, string pickupMessage, double damage) : base(desc, pickupMessage)
     {
-        Damageboost = damageboost;
+        Damageboost = damage;
     }
 
     public override void ApplyEffect(Player player)
     {
-        player.boostDamage(Damageboost);
+        player.BoostDamage(Damageboost);
     }
 }

@@ -75,17 +75,82 @@
                     Console.WriteLine();
                 }
                 Console.WriteLine($"Health: {maze.Player.Health}");
-                if (maze.Player.Inventory.Any())
+                if (maze.Player.currentWeapon != null)
                 {
-                    Item equippedWeapon = maze.Player.Inventory[0];
-                    Console.WriteLine($"Equipped Weapon: {equippedWeapon.ItemDesc}");
+                    Console.WriteLine($"Equipped Weapon: {maze.Player.currentWeapon.ItemDesc}");
                 }
                 else
                 {
                     Console.WriteLine("Equipped Weapon: None");
                 }
+
+
+                Console.WriteLine("Press [K] to access inventory");
+
+                if (maze.AtItem())
+                {
+                    Item item = Item.GenerateItem();
+                    item.OnPickUp();
+
+                    if (item is Weapon weapon)
+                    {
+                        maze.Player.Inventory.Add(weapon);
+                    }
+                    else
+                    {
+                        item.ApplyEffect(maze.Player);
+                    }
+                    
+                    maze.RemoveItem();
+                }
                 
-                var action = Console.ReadKey(true).Key;
+                ConsoleKey action = Console.ReadKey(true).Key;
+
+                if (action == ConsoleKey.K)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Inventory: ");
+                    int i = 1;
+
+                    List<Weapon> weaponList = new List<Weapon>();
+
+                    foreach (var item in maze.Player.Inventory)
+                    {
+                        Console.WriteLine($"{i}: {item.ItemDesc}");
+
+                        if (item is Weapon weapon)
+                        {
+                            weaponList.Add(weapon);
+                        }
+
+                        i++;
+                    }
+
+                    if (weaponList.Count > 1)
+                    {
+                        Console.WriteLine("\n Select a weapon to equip (enter the number): ");
+                        if (int.TryParse(Console.ReadLine(), out int weaponChoice) && weaponChoice > 0 &&
+                            weaponChoice <= weaponList.Count)
+                        {
+                            Weapon selectedWeapon = weaponList[weaponChoice - 1];
+                            maze.Player.EquipWeapon(selectedWeapon);
+                            Console.WriteLine($"Equipped Weapon: {selectedWeapon.ItemDesc}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Selection");
+                        }
+                    }
+                    else if (weaponList.Count == 1)
+                    {
+                        Console.WriteLine("You only have one weapon equipped.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You have no weapons in your inventory.");
+                    }
+                    Console.ReadKey(true);
+                }
                 
                 maze.MovePlayer(action);
 
@@ -157,20 +222,6 @@
                             maze.BattleInProgress = true;
                         }
                     } while (maze.BattleInProgress);
-                }
-
-                if (maze.AtItem())
-                {
-                    Item item = Item.GenerateItem();
-
-                    item.OnPickUp();
-                    if (item is Weapon weapon)
-                    {
-                        maze.Player.Inventory.Add(item);
-                    }
-                    item.ApplyEffect(maze.Player);
-
-                    maze.RemoveItem();
                 }
                 
                 if (maze.AtExit())

@@ -12,6 +12,5 @@ public class Potion : Item
     public override void ApplyEffect(Player player)
     {
         player.Health += HealthRestored;
-        Console.WriteLine("Test");
     }
 }
