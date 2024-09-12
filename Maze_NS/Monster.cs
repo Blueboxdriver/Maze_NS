@@ -2,35 +2,54 @@ namespace Maze_NS;
 
 public class Monster : ICharacter
 {
-    public int X { get; set; } //test
-    public int Y { get; set; }
+    /// <summary>
+    /// <param name="Health">Integer containing the max health of a monster.</param>
+    /// <param name="IsStunned">Boolean that returns true if the monster is stunned.</param>
+    /// <param name="Type">The type of monster, essentially it's name.</param>
+    /// <param name="Rand">A Random object used to generate a random monster to spawn.</param>
+    /// <param name="DamValue">Integer containing the attack value a monster has.</param>
+    /// </summary>
+    public int DamValue { get; set; }
     public int Health { get; set; }
     public bool IsStunned { get; set; }
     public string Type { get; set; }
-    private static Random Random = new Random();
+    private static Random Rand = new Random();
 
-    public Monster(string type, int health)
+    /// <summary>
+    /// Constructor for a Monster object. Takes a string and an integer representing the Monster's type and max Health respectively.
+    /// </summary>
+    /// <param name="type">Determines the type of Monster</param>
+    /// <param name="health">Determines the max health of the Monster</param>
+    public Monster(string type, int health, int damage)
     {
         Type = type;
         Health = health;
+        DamValue = damage;
     }
-
+    /// <summary>
+    /// Randomly selects a monster object from a list of monsters.
+    /// </summary>
+    /// <returns>A Monster Object</returns>
     public static Monster GenerateMonster()
     {
         List<Monster> monsters = new List<Monster>()
         {
-            new Monster("Peccatulum Irae", 75),
-            new Monster("Peccatulum Morositatis", 75),
-            new Monster("Edgar House Butler", 100),
-            new Monster("Josephine of the Wild Hunt", 125),
-            new Monster("Hindley of the Wild Hunt", 125),
-            new Monster("Linton of the Wild Hunt", 125)
+            new Monster("Peccatulum Irae", 75, 10),
+            new Monster("Peccatulum Morositatis", 75, 10),
+            new Monster("Edgar House Butler", 100, 15),
+            new Monster("Josephine of the Wild Hunt", 125, 20),
+            new Monster("Hindley of the Wild Hunt", 125, 20),
+            new Monster("Linton of the Wild Hunt", 125, 20)
         };
 
-        int index = Random.Next(monsters.Count);
+        int index = Rand.Next(monsters.Count);
         return monsters[index];
     }
-
+    
+    /// <summary>
+    /// Corresponds a string to a specific monster
+    /// </summary>
+    /// <returns>The string that corresponds with that monster</returns>
     public string GetTalk()
     {
         return Type switch
@@ -49,13 +68,14 @@ public class Monster : ICharacter
                                          "His strength betrays his sickly nature. You can't tell what he's thinking."
         };
     }
-    private void TakeDamage(int damage)
+
+    /// <summary>
+    /// Takes a Player object as a target and subtracts 10 from their total health
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="monster"></param>
+    public void InflictDamage(Player player, Monster monster)
     {
-        Health -= damage;
-    }
-    
-    public void InflictDamage(Player player)
-    {
-        player.Health -= 10;
+        player.Health -= monster.DamValue;
     }
 }

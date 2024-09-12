@@ -4,8 +4,8 @@
     {
         public static void Main(string[] args)
         {
-            Monster monster = new Monster("", 0);
-
+            
+            Monster monster = new Monster("", 0, 0);
             Maze maze = null!;
 
             Console.WriteLine("Welcome to the Maze game, please select the maze's difficulty.");
@@ -173,7 +173,7 @@
                         switch (action)
                         {
                             case ConsoleKey.D1:
-                                maze.Player.InflictDamage(monster);
+                                maze.Player.InflictDamage(maze.Player, monster);
                                 Console.WriteLine($"You attacked for: {Convert.ToInt32(maze.Player.BaseDam)}!\n");
                                 
                                 if (monster.IsStunned)
@@ -184,7 +184,7 @@
                                 else
                                 {
                                     Console.WriteLine($"{monster.Type} retaliates for: 10 Damage!\n");
-                                    monster.InflictDamage(maze.Player);
+                                    monster.InflictDamage(maze.Player, monster);
                                 }
                                 Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;

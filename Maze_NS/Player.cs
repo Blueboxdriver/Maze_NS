@@ -41,7 +41,7 @@ public class Player : ICharacter
         return Health.ToString();
     }
     
-    public void InflictDamage(Monster monster)
+    public void InflictDamage(Player player, Monster monster)
     {
         monster.Health -= Convert.ToInt32(BaseDam);
     }

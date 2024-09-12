@@ -23,8 +23,8 @@
             GenerateMaze(1, 1);
             
             PlaceExit();
-            //PlaceMonsters(Convert.ToInt32((width * height) / 35));
-            PlaceItems(50);
+            PlaceMonsters(Convert.ToInt32((width * height) / 35));
+            PlaceItems(10);
             Player = new Player(1, 1);
         }
 
