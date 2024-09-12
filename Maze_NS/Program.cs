@@ -74,7 +74,16 @@
 
                     Console.WriteLine();
                 }
-                Console.WriteLine($"{maze.Player.Health}");
+                Console.WriteLine($"Health: {maze.Player.Health}");
+                if (maze.Player.Inventory.Any())
+                {
+                    Item equippedWeapon = maze.Player.Inventory[0];
+                    Console.WriteLine($"Equipped Weapon: {equippedWeapon.ItemDesc}");
+                }
+                else
+                {
+                    Console.WriteLine("Equipped Weapon: None");
+                }
                 
                 var action = Console.ReadKey(true).Key;
                 
@@ -92,7 +101,7 @@
                         Console.Clear();
                         Console.WriteLine($"You have encountered: {monster.Type} | {monster.Health} HP\n\n");
                         Console.WriteLine($"You have {maze.Player.Health} HP");
-                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Indentify\n");
+                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Identify\n");
                         
                         action = Console.ReadKey(true).Key;
 
@@ -155,7 +164,10 @@
                     Item item = Item.GenerateItem();
 
                     item.OnPickUp();
-
+                    if (item is Weapon weapon)
+                    {
+                        maze.Player.Inventory.Add(item);
+                    }
                     item.ApplyEffect(maze.Player);
 
                     maze.RemoveItem();

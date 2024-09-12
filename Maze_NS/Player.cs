@@ -7,6 +7,8 @@ public class Player : ICharacter
     public int X { get; private set; }
     public int Y { get; private set; }
     
+    public List<Item> Inventory = new List<Item>();
+    
     public Player(int startX, int startY, int health = 100)
     {
         X = startX;
@@ -40,4 +42,5 @@ public class Player : ICharacter
         monster.Health -= Convert.ToInt32(BaseDam);
     }
     
+
 }
