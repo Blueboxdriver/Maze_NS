@@ -158,6 +158,38 @@
             return result;
         }
 
+        public bool AtItem()
+        {
+            bool result = false;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (Player.X == x && Player.Y == y && tiles[y, x].IsItem && tiles[y, x].IsPlayer)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        public void RemoveItem()
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (Player.X == x && Player.Y == y && tiles[y, x].IsItem && tiles[y, x].IsPlayer)
+                    {
+                        tiles[y, x].IsItem = false;
+                    }
+                }
+            }
+        }
+
         public void RemoveMonster()
         {
             for (int y = 0; y < height; y++)

@@ -3,6 +3,7 @@ namespace Maze_NS;
 public class Player : ICharacter
 {
     public int Health { get; set; } //test
+    public double BaseDam { get; set; }
     public int X { get; private set; }
     public int Y { get; private set; }
     
@@ -11,6 +12,12 @@ public class Player : ICharacter
         X = startX;
         Y = startY;
         Health = health;
+        BaseDam = 10;
+    }
+
+    public void boostDamage(double amount)
+    {
+        BaseDam += BaseDam * amount;
     }
 
     public void Move(int newX, int newY)
@@ -30,7 +37,7 @@ public class Player : ICharacter
     
     public void InflictDamage(Monster monster)
     {
-        monster.Health -= 10;
+        monster.Health -= Convert.ToInt32(BaseDam);
     }
     
 }

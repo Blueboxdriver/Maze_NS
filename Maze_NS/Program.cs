@@ -74,6 +74,7 @@
 
                     Console.WriteLine();
                 }
+                Console.WriteLine($"{maze.Player.Health}");
                 
                 var action = Console.ReadKey(true).Key;
                 
@@ -91,7 +92,7 @@
                         Console.Clear();
                         Console.WriteLine($"You have encountered: {monster.Type} | {monster.Health} HP\n\n");
                         Console.WriteLine($"You have {maze.Player.Health} HP");
-                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Talk\n");
+                        Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Indentify\n");
                         
                         action = Console.ReadKey(true).Key;
 
@@ -99,7 +100,7 @@
                         {
                             case ConsoleKey.D1:
                                 maze.Player.InflictDamage(monster);
-                                Console.WriteLine($"You attacked for: 10 Damage!\n");
+                                Console.WriteLine($"You attacked for: {Convert.ToInt32(maze.Player.BaseDam)}!\n");
                                 
                                 if (monster.IsStunned)
                                 {
@@ -123,7 +124,7 @@
                                 break;
                             
                             case ConsoleKey.D3:
-                                Console.WriteLine($"You try to reason with {monster.Type}\n");
+                                Console.WriteLine($"You take a closer look at {monster.Type}\n");
                                 Console.WriteLine($"{monster.Type}: " + monster.GetTalk() + "\n");
                                 Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;
@@ -147,6 +148,17 @@
                             maze.BattleInProgress = true;
                         }
                     } while (maze.BattleInProgress);
+                }
+
+                if (maze.AtItem())
+                {
+                    Item item = Item.GenerateItem();
+
+                    item.OnPickUp();
+
+                    item.ApplyEffect(maze.Player);
+
+                    maze.RemoveItem();
                 }
                 
                 if (maze.AtExit())

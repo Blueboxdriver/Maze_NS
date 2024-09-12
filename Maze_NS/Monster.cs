@@ -19,8 +19,8 @@ public class Monster : ICharacter
     {
         List<Monster> monsters = new List<Monster>()
         {
-            new Monster("Greed Peccatula", 75),
-            new Monster("Pride Peccatula", 75),
+            new Monster("Peccatulum Irae", 75),
+            new Monster("Peccatulum Morositatis", 75),
             new Monster("Edgar House Butler", 100),
             new Monster("Josephine of the Wild Hunt", 125),
             new Monster("Hindley of the Wild Hunt", 125),
@@ -35,12 +35,18 @@ public class Monster : ICharacter
     {
         return Type switch
         {
-            "Greed Peccatula" => "The creature doesn't respond to your attempts of communication.",
-            "Pride Peccatula" => "The creature doesn't respond to your attempts of communication.",
-            "Edgar House Butler" => "You're the cause of all of this!",
-            "Josephine of the Wild Hunt" => "I knew one day you would return and ruin everything!",
-            "Hindley of the Wild Hunt" => "This decaying manor... must crumble, as it should be.",
-            "Linton of the Wild Hunt" => "figure this out later"
+            "Peccatulum Irae" => "The creature most resembles a praying mantis, yet each part of its body is elongated and sharpened. " +
+                                 "It stares at you with a singular wrathful eye.",
+            "Peccatulum Morositatis" => "Most resembling a jellyfish, this Peccatulum looks almost as if it's going to cry. " +
+                                        "Inside its membrane, a singular eye gloomful eye stares at you.",
+            "Edgar House Butler" => "A butler contracted with the Edgar family. Adorned in sterotypical suit and tie. " +
+                                    " However, you notice that the equipment he carries is far more dangerous than it appears.",
+            "Josephine of the Wild Hunt" => "Some version of Josephine, Chief Butler of Wulthering Heights. " +
+                                            "It's hard to tell what she's thinking, given the nature of her arrival.",
+            "Hindley of the Wild Hunt" => "Some version of Hindley, former master of Wulthering Heights. " +
+                                          "Compared to the others, he looks ragged and on the brink of distortion.",
+            "Linton of the Wild Hunt" => "Some version of Linton, head of the Edgar family. It seems he was separated from his staff. " +
+                                         "His strength betrays his sickly nature. You can't tell what he's thinking."
         };
     }
     private void TakeDamage(int damage)
