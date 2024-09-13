@@ -2,9 +2,9 @@ namespace Maze_NS;
 
 public class Weapon : Item
 {
-    public double Damageboost { get; private set; }
+    public int Damageboost { get; private set; }
 
-    public Weapon(string desc, string pickupMessage, double damage) : base(desc, pickupMessage)
+    public Weapon(string desc, string pickupMessage, int damage) : base(desc, pickupMessage)
     {
         Damageboost = damage;
     }

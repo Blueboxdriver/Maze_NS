@@ -1,35 +1,43 @@
 namespace Maze_NS;
-
+/// <summary>
+/// Represents a monster in the maze and implements the <see cref="ICharacter"/> interface.
+/// </summary>
 public class Monster : ICharacter
 {
     /// <summary>
-    /// <param name="Health">Integer containing the max health of a monster.</param>
-    /// <param name="IsStunned">Boolean that returns true if the monster is stunned.</param>
-    /// <param name="Type">The type of monster, essentially it's name.</param>
-    /// <param name="Rand">A Random object used to generate a random monster to spawn.</param>
-    /// <param name="DamValue">Integer containing the attack value a monster has.</param>
+    /// Represents the base damage a monster can inflict on a player.
     /// </summary>
-    public int DamValue { get; set; }
+    public int BaseDam { get; set; }
+    /// <summary>
+    /// Represents the base amount of health a monster has.
+    /// </summary>
     public int Health { get; set; }
+    /// <summary>
+    /// Represents whether or not a monster is stunned.
+    /// </summary>
     public bool IsStunned { get; set; }
-    public string Type { get; set; }
+    /// <summary>
+    /// Represents the name of a monster.
+    /// </summary>
+    public string Name { get; set; }
     private static Random Rand = new Random();
 
     /// <summary>
-    /// Constructor for a Monster object. Takes a string and an integer representing the Monster's type and max Health respectively.
+    /// Constructor for a Monster object. Takes a string and two integers representing the Monster's name, health and damage.
     /// </summary>
-    /// <param name="type">Determines the type of Monster</param>
+    /// <param name="name">Determines the name of Monster</param>
     /// <param name="health">Determines the max health of the Monster</param>
-    public Monster(string type, int health, int damage)
+    /// <param name="damage">Determines the damage a monster can inflict</param>
+    public Monster(string name, int health, int damage)
     {
-        Type = type;
+        Name = name;
         Health = health;
-        DamValue = damage;
+        BaseDam = damage;
     }
     /// <summary>
     /// Randomly selects a monster object from a list of monsters.
     /// </summary>
-    /// <returns>A Monster Object</returns>
+    /// <returns>A Monster for the player to fight.</returns>
     public static Monster GenerateMonster()
     {
         List<Monster> monsters = new List<Monster>()
@@ -52,7 +60,7 @@ public class Monster : ICharacter
     /// <returns>The string that corresponds with that monster</returns>
     public string GetTalk()
     {
-        return Type switch
+        return Name switch
         {
             "Peccatulum Irae" => "The creature most resembles a praying mantis, yet each part of its body is elongated and sharpened. " +
                                  "It stares at you with a singular wrathful eye.",
@@ -70,12 +78,12 @@ public class Monster : ICharacter
     }
 
     /// <summary>
-    /// Takes a Player object as a target and subtracts 10 from their total health
+    /// Takes a player object and depletes the base damage a monster has from the player's health.
     /// </summary>
-    /// <param name="player"></param>
-    /// <param name="monster"></param>
+    /// <param name="player">The Player receiving damage.</param>
+    /// <param name="monster">The Monster inflicting the damage.</param>
     public void InflictDamage(Player player, Monster monster)
     {
-        player.Health -= monster.DamValue;
+        player.Health -= monster.BaseDam;
     }
 }

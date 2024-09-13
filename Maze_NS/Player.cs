@@ -3,9 +3,9 @@ namespace Maze_NS;
 public class Player : ICharacter
 {
     public int Health { get; set; } //test
-    public double BaseDam { get; set; }
-    public int X { get; private set; }
-    public int Y { get; private set; }
+    public int BaseDam { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
     
     public List<Item> Inventory = new List<Item>();
     public Weapon currentWeapon;
@@ -21,7 +21,7 @@ public class Player : ICharacter
         EquipWeapon(defaultWeapon);
     }
 
-    public void BoostDamage(double amount)
+    public void BoostDamage(int amount)
     {
         BaseDam = amount;
     }
@@ -48,11 +48,6 @@ public class Player : ICharacter
 
     public void EquipWeapon(Weapon newWeapon)
     {
-        if (currentWeapon != null)
-        {
-            BaseDam /= currentWeapon.Damageboost;
-        }
-
         currentWeapon = newWeapon;
 
         BoostDamage(newWeapon.Damageboost);

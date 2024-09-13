@@ -164,7 +164,7 @@
                     do
                     {
                         Console.Clear();
-                        Console.WriteLine($"You have encountered: {monster.Type} | {monster.Health} HP\n\n");
+                        Console.WriteLine($"You have encountered: {monster.Name} | {monster.Health} HP\n\n");
                         Console.WriteLine($"You have {maze.Player.Health} HP");
                         Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Identify\n");
                         
@@ -178,12 +178,12 @@
                                 
                                 if (monster.IsStunned)
                                 {
-                                    Console.WriteLine($"{monster.Type} is stunned, therefore {monster.Type} cannot retaliate!\n");
+                                    Console.WriteLine($"{monster.Name} is stunned, therefore {monster.Name} cannot retaliate!\n");
                                     monster.IsStunned = false;
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"{monster.Type} retaliates for: 10 Damage!\n");
+                                    Console.WriteLine($"{monster.Name} retaliates for: 10 Damage!\n");
                                     monster.InflictDamage(maze.Player, monster);
                                 }
                                 Console.WriteLine("Press any key to continue.");
@@ -191,15 +191,15 @@
                                 break;
                             
                             case ConsoleKey.D2:
-                                Console.WriteLine($"You stunned {monster.Type}!\n");
+                                Console.WriteLine($"You stunned {monster.Name}!\n");
                                 monster.IsStunned = true;
                                 Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;
                                 break;
                             
                             case ConsoleKey.D3:
-                                Console.WriteLine($"You take a closer look at {monster.Type}\n");
-                                Console.WriteLine($"{monster.Type}: " + monster.GetTalk() + "\n");
+                                Console.WriteLine($"You take a closer look at {monster.Name}\n");
+                                Console.WriteLine($"{monster.Name}: " + monster.GetTalk() + "\n");
                                 Console.WriteLine("Press any key to continue.");
                                 action = Console.ReadKey().Key;
                                 break;
@@ -235,7 +235,7 @@
                 {
                     Console.Clear();
                     Console.WriteLine("You've died, game over.");
-                    Console.WriteLine($"Killed by: {monster.Type}");
+                    Console.WriteLine($"Killed by: {monster.Name}");
                 }
                 Console.ResetColor();
             }
