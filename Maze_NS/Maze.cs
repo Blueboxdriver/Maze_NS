@@ -34,7 +34,7 @@
             {
                 for (int x = 0; x < width; x++)
                 {
-                    tiles[y, x] = new Tile(true);
+                    tiles[y, x] = new Tile();
                 }
             }
 
