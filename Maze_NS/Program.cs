@@ -75,9 +75,9 @@
                     Console.WriteLine();
                 }
                 Console.WriteLine($"Health: {maze.Player.Health}");
-                if (maze.Player.currentWeapon != null)
+                if (maze.Player.CurrentWeapon != null)
                 {
-                    Console.WriteLine($"Equipped Weapon: {maze.Player.currentWeapon.ItemDesc}");
+                    Console.WriteLine($"Equipped Weapon: {maze.Player.CurrentWeapon.ItemDesc}");
                 }
                 else
                 {
@@ -90,7 +90,7 @@
                 if (maze.AtItem())
                 {
                     Item item = Item.GenerateItem();
-                    item.OnPickUp();
+                    Console.WriteLine($"{item.ItemPickUp}");
 
                     if (item is Weapon weapon)
                     {

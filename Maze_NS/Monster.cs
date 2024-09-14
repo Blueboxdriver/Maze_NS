@@ -4,13 +4,9 @@ namespace Maze_NS;
 /// </summary>
 public class Monster : ICharacter
 {
-    /// <summary>
-    /// Represents the base damage a monster can inflict on a player.
-    /// </summary>
+    /// <inheritdoc />
     public int BaseDam { get; set; }
-    /// <summary>
-    /// Represents the base amount of health a monster has.
-    /// </summary>
+    /// <inheritdoc />
     public int Health { get; set; }
     /// <summary>
     /// Represents whether or not a monster is stunned.
@@ -77,11 +73,8 @@ public class Monster : ICharacter
         };
     }
 
-    /// <summary>
-    /// Takes a player object and depletes the base damage a monster has from the player's health.
-    /// </summary>
-    /// <param name="player">The Player receiving damage.</param>
-    /// <param name="monster">The Monster inflicting the damage.</param>
+
+    /// <inheritdoc />
     public void InflictDamage(Player player, Monster monster)
     {
         player.Health -= monster.BaseDam;
