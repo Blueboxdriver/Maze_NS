@@ -21,4 +21,5 @@ public class Weapon : Item
     {
         player.BoostDamage(ItemEffect);
     }
+    
 }

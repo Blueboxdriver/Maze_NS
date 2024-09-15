@@ -33,11 +33,11 @@
             {
                 Console.Clear();
                 
-                for (int y = 0; y < maze.height; y++)
+                for (int y = 0; y < maze.Height; y++)
                 {
-                    for (int x = 0; x < maze.width; x++) // test
+                    for (int x = 0; x < maze.Width; x++) // test
                     {
-                        var tile = maze.tiles[y, x];
+                        var tile = maze.Tiles[y, x];
                         string output;
                         var color = ConsoleColor.White;
                         switch (tile)
