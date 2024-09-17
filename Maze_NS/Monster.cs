@@ -1,25 +1,31 @@
 namespace Maze_NS;
+
 /// <summary>
-/// Represents a monster in the maze and implements the <see cref="ICharacter"/> interface.
+///     Represents a monster in the maze and implements the <see cref="ICharacter" /> interface.
 /// </summary>
 public class Monster : ICharacter
 {
     /// <inheritdoc />
     public int BaseDam { get; set; }
+
     /// <inheritdoc />
     public int Health { get; set; }
-    /// <summary>
-    /// Represents whether or not a monster is stunned.
-    /// </summary>
-    public bool IsStunned { get; set; }
-    /// <summary>
-    /// Represents the name of a monster.
-    /// </summary>
-    public string Name { get; set; }
-    private static Random Rand = new Random();
 
     /// <summary>
-    /// Constructor for a Monster object. Takes a string and two integers representing the Monster's name, health and damage.
+    ///     Represents whether or not a monster is stunned.
+    /// </summary>
+    public bool IsStunned { get; set; }
+
+    /// <summary>
+    ///     Represents the name of a monster.
+    /// </summary>
+    public string Name { get; set; }
+
+    private static readonly Random Rand = new();
+
+    /// <summary>
+    ///     Constructor for a Monster object. Takes a string and two integers representing the Monster's name, health and
+    ///     damage.
     /// </summary>
     /// <param name="name">Determines the name of Monster</param>
     /// <param name="health">Determines the max health of the Monster</param>
@@ -30,28 +36,29 @@ public class Monster : ICharacter
         Health = health;
         BaseDam = damage;
     }
+
     /// <summary>
-    /// Randomly selects a monster object from a list of monsters.
+    ///     Randomly selects a monster object from a list of monsters.
     /// </summary>
     /// <returns>A Monster for the player to fight.</returns>
     public static Monster GenerateMonster()
     {
-        List<Monster> monsters = new List<Monster>()
+        List<Monster> monsters = new()
         {
-            new Monster("Peccatulum Irae", 75, 10),
-            new Monster("Peccatulum Morositatis", 75, 10),
-            new Monster("Edgar House Butler", 100, 15),
-            new Monster("Josephine of the Wild Hunt", 125, 20),
-            new Monster("Hindley of the Wild Hunt", 125, 20),
-            new Monster("Linton of the Wild Hunt", 125, 20)
+            new("Peccatulum Irae", 75, 10),
+            new("Peccatulum Morositatis", 75, 10),
+            new("Edgar House Butler", 100, 15),
+            new("Josephine of the Wild Hunt", 125, 20),
+            new("Hindley of the Wild Hunt", 125, 20),
+            new("Linton of the Wild Hunt", 125, 20)
         };
 
         int index = Rand.Next(monsters.Count);
         return monsters[index];
     }
-    
+
     /// <summary>
-    /// Corresponds a string to a specific monster
+    ///     Corresponds a string to a specific monster
     /// </summary>
     /// <returns>The string that corresponds with that monster</returns>
     public string GetTalk()
