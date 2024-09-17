@@ -34,13 +34,13 @@ public class Player : ICharacter
     /// <summary>
     ///     Creates a new object of the <see cref="Player" /> class with specified starting coordinates and health.
     /// </summary>
-    /// <param name="startX">The starting X coordinate of the player within the maze.</param>
-    /// <param name="startY">The starting Y coordinate of the player within the maze.</param>
+    /// <param name="startXCoord">The starting X coordinate of the player within the maze.</param>
+    /// <param name="startYCoord">The starting Y coordinate of the player within the maze.</param>
     /// <param name="health">The starting health of the player within the maze.</param>
-    public Player(int startX, int startY, int health = 100)
+    public Player(int startXCoord, int startYCoord, int health = 100)
     {
-        XCoord = startX;
-        YCoord = startY;
+        XCoord = startXCoord;
+        YCoord = startYCoord;
         Health = health;
         BaseDam = 10;
         Weapon defaultWeapon = new("Basic Baton", "A baton you found when you woke up.", 10);

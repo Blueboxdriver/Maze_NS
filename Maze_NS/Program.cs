@@ -33,11 +33,11 @@ public class Program
         {
             Console.Clear();
 
-            for (int y = 0; y < maze.Height; y++)
+            for (int yCoord = 0; yCoord < maze.Height; yCoord++)
             {
-                for (int x = 0; x < maze.Width; x++) // test
+                for (int xCoord = 0; xCoord < maze.Width; xCoord++) // test
                 {
-                    Tile tile = maze.Tiles[y, x];
+                    Tile tile = maze.Tiles[yCoord, xCoord];
                     string output;
                     ConsoleColor color = ConsoleColor.White;
                     switch (tile)
@@ -62,9 +62,12 @@ public class Program
                             output = " I ";
                             color = ConsoleColor.Yellow;
                             break;
-                        default:
+                        case { IsEmpty: true}:
                             output = " _ ";
                             color = ConsoleColor.White;
+                            break;
+                        default:
+                            output = " ? ";
                             break;
                     }
 
@@ -96,6 +99,10 @@ public class Program
                 if (item is Weapon weapon)
                 {
                     maze.Player.Inventory.Add(weapon);
+                    if (weapon.ItemEffect > maze.Player.CurrentWeapon.ItemEffect)
+                    {
+                        maze.Player.EquipWeapon(weapon);
+                    }
                 }
                 else
                 {

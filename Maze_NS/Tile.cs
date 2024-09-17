@@ -9,32 +9,37 @@ public class Tile
     /// <summary>
     ///     Gets or sets a T/F value on whether the tile is a wall.
     /// </summary>
-    public Boolean IsWall { get; set; }
+    public bool IsWall { get; set; }
 
     /// <summary>
     ///     Gets or sets a T/F value on whether a tile has been visited by the <see cref="Maze.GenerateMaze" /> method.
     /// </summary>
-    public Boolean IsVisited { get; set; }
+    public bool IsVisited { get; set; }
 
     /// <summary>
     ///     Gets or sets a T/F value on whether the tile has a item.
     /// </summary>
-    public Boolean IsItem { get; set; }
+    public bool IsItem { get; set; }
 
     /// <summary>
     ///     Gets or sets a T/F value on whether the tile has a monster.
     /// </summary>
-    public Boolean IsMonster { get; set; }
+    public bool IsMonster { get; set; }
 
     /// <summary>
     ///     Gets or sets a T/F value on whether the tile is the exit.
     /// </summary>
-    public Boolean IsExit { get; set; }
+    public bool IsExit { get; set; }
 
     /// <summary>
     ///     Gets or sets a T/F value depending on whether the <see cref="Player" /> is on that tile.
     /// </summary>
-    public Boolean IsPlayer { get; set; }
+    public bool IsPlayer { get; set; }
+    
+    /// <summary>
+    ///     Gets or sets a T/F value depending on whether the tile is empty.
+    /// </summary>
+    public bool IsEmpty { get; set; }
 
     /// <summary>
     ///     Creates an object of the <see cref="Tile" /> class with default values.
@@ -47,5 +52,6 @@ public class Tile
         IsVisited = false;
         IsExit = false;
         IsMonster = false;
+        IsEmpty = false;
     }
 }
