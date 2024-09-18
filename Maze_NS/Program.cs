@@ -2,31 +2,42 @@
 
 public class Program
 {
-    public static void Main(String[] args)
+    public static void Main(string[] args)
     {
         Monster monster = new("", 0, 0);
         Maze maze = null!;
+        bool success = false;
 
         Console.WriteLine("Welcome to the Maze game, please select the maze's difficulty.");
         Console.WriteLine(
             "Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35) [3] | Grader Must Die (55x55): [4]");
         Console.WriteLine("Warning, Grader Must Die mode will likely not fit the console.");
-        int choice = Convert.ToInt32(Console.ReadLine());
 
-        switch (choice)
+        while (!success)
         {
-            case 1:
-                maze = new Maze(15, 15);
-                break;
-            case 2:
-                maze = new Maze(25, 25);
-                break;
-            case 3:
-                maze = new Maze(35, 35);
-                break;
-            case 4:
-                maze = new Maze(55, 55);
-                break;
+            int.TryParse(Console.ReadLine(), out int choice);
+            switch (choice)
+            {
+                case 1:
+                    maze = new Maze(15, 15);
+                    success = true;
+                    break;
+                case 2:
+                    maze = new Maze(25, 25);
+                    success = true;
+                    break;
+                case 3:
+                    maze = new Maze(35, 35);
+                    success = true;
+                    break;
+                case 4:
+                    maze = new Maze(55, 55);
+                    success = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice, please enter a valid number.");
+                    break;
+            }
         }
 
         while (maze.GameInProgress)
@@ -62,7 +73,7 @@ public class Program
                             output = " I ";
                             color = ConsoleColor.Yellow;
                             break;
-                        case { IsEmpty: true}:
+                        case { IsEmpty: true }:
                             output = " _ ";
                             color = ConsoleColor.White;
                             break;
@@ -113,19 +124,21 @@ public class Program
             }
 
             ConsoleKey action = Console.ReadKey(true).Key;
-
+            
+            // Inventory / Weapon selection system.
             if (action == ConsoleKey.K)
             {
                 Console.Clear();
                 Console.WriteLine("Inventory: ");
                 int i = 1;
-
+                
+                // This is the list we'll be using to store our weapons.
                 List<Weapon> weaponList = new();
-
+                // This parses through every item in our Inventory list, even though earlier we've made it so only weapons are added. 
                 foreach (Item item in maze.Player.Inventory)
                 {
                     Console.WriteLine($"{i}: {item.ItemDesc}");
-
+                    // It would cut down on the code, but I think it's better to show and ensure that ONLY weapons are being added to weaponList
                     if (item is Weapon weapon)
                     {
                         weaponList.Add(weapon);
@@ -133,12 +146,13 @@ public class Program
 
                     i++;
                 }
-
+                
+                //Technically, this will always be true because the player starts with a baton.
                 if (weaponList.Count > 1)
                 {
                     Console.WriteLine("\n Select a weapon to equip (enter the number): ");
-                    if (int.TryParse(Console.ReadLine(), out int weaponChoice) && weaponChoice > 0 &&
-                        weaponChoice <= weaponList.Count)
+                    // Input validation, ensures input is within range of the current amount of items in inventory.
+                    if (int.TryParse(Console.ReadLine(), out int weaponChoice) && weaponChoice > 0 && weaponChoice <= weaponList.Count) 
                     {
                         Weapon selectedWeapon = weaponList[weaponChoice - 1];
                         maze.Player.EquipWeapon(selectedWeapon);
@@ -148,14 +162,6 @@ public class Program
                     {
                         Console.WriteLine("Invalid Selection");
                     }
-                }
-                else if (weaponList.Count == 1)
-                {
-                    Console.WriteLine("You only have one weapon equipped.");
-                }
-                else
-                {
-                    Console.WriteLine("You have no weapons in your inventory.");
                 }
 
                 Console.ReadKey(true);
