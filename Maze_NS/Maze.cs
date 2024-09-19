@@ -130,14 +130,15 @@ public class Maze : Tile
     /// <returns>A shuffled list of tuples representing directions on the 2D maze array.</returns>
     private List<(int, int)> GetRandomDirections()
     {
-        List<(int, int)> directions = new() // It's easier to use a list with tuples instead of an enum. 
-        {
+        List<(int, int)> directions =
+        // It's easier to use a list with tuples instead of an enum. 
+        [
             // This is the only time where the coordinates follow a (xCoord, yCoord) format.
             (0, -1), // north
             (0, 1), // south
             (-1, 0), // west
             (1, 0) // east
-        };
+        ];
         for (int i = directions.Count - 1; i > 0; i--)
         {
             int j = _random.Next(i + 1);

@@ -133,7 +133,7 @@ public class Program
                 int i = 1;
 
                 // This is the list we'll be using to store our weapons.
-                List<Weapon> weaponList = new();
+                List<Weapon> weaponList = [];
                 // This parses through every item in our Inventory list, even though earlier we've made it so only weapons are added. 
                 foreach (Item item in maze.Player.Inventory)
                 {
@@ -172,7 +172,7 @@ public class Program
             // Displays a combat encounter with a random monster if the player is on a monster tile.
             if (maze.AtMonster())
             {
-                Monster monster = new("", 0, 0);
+                Monster monster;
                 maze.BattleInProgress = true;
                 maze.GameInProgress = false;
                 monster = Monster.GenerateMonster();

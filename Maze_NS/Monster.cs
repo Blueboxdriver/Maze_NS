@@ -43,15 +43,15 @@ public class Monster : ICharacter
     /// <returns>A Monster for the player to fight.</returns>
     public static Monster GenerateMonster()
     {
-        List<Monster> monsters = new()
-        {
+        List<Monster> monsters =
+        [
             new("Peccatulum Irae", 75, 10),
             new("Peccatulum Morositatis", 75, 10),
             new("Edgar House Butler", 100, 15),
             new("Josephine of the Wild Hunt", 125, 20),
             new("Hindley of the Wild Hunt", 125, 20),
             new("Linton of the Wild Hunt", 125, 20)
-        };
+        ];
 
         int index = Rand.Next(monsters.Count);
         return monsters[index];
@@ -76,7 +76,7 @@ public class Monster : ICharacter
             "Hindley of the Wild Hunt" => "Some version of Hindley, former master of Wulthering Heights. " +
                                           "Compared to the others, he looks ragged and on the brink of distortion.",
             "Linton of the Wild Hunt" => "Some version of Linton, head of the Edgar family. It seems he was separated from his staff. " +
-                                         "His strength betrays his sickly nature. You can't tell what he's thinking."
+                                         "His strength betrays his sickly nature. You can't tell what he's thinking.",
         };
     }
 

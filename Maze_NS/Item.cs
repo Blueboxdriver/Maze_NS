@@ -19,13 +19,13 @@ public abstract class Item
     /// <summary>
     ///     An integer that sets the effect value of an item.
     /// </summary>
-    public Int32 ItemEffect { get; set; }
+    public int ItemEffect { get; set; }
 
     /// <summary>
     ///     A list of predefined items that can be found in the maze.
     /// </summary>
-    private static readonly List<Item> _items = new()
-    {
+    private static readonly List<Item> _items =
+    [
         new Potion("Half empty K-Corp Ampule",
             "You found a Half Empty K-Corp Ampule! This miracle drug originates from K-Corp's singularity. Some of the liquid leaked out of this Ampule. ",
             25),
@@ -34,7 +34,7 @@ public abstract class Item
             50),
         new Weapon("Stigma Workshop Longsword", "You found a Stigma Workshop weapon! It's warm to the touch.", 15),
         new Weapon("Atelier Logic Handgun", "You found a Atelier Logic Handgun! Fortunately, it came with bullets.", 20)
-    };
+    ];
 
     /// <summary>
     ///     Creates an object of the <see cref="Item" /> class containing a description, pickup message and value for the
@@ -58,7 +58,7 @@ public abstract class Item
     public static Item GenerateItem()
     {
         Random rand = new();
-        Int32 i = rand.Next(_items.Count);
+        int i = rand.Next(_items.Count);
         Item selectedItem = _items[i];
         if (selectedItem is Weapon) // Removes the item from _items if it's of the weapons class
         {
