@@ -4,15 +4,13 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Monster monster = new("", 0, 0);
         Maze maze = null!;
         bool success = false;
 
+        // Prompts the user to create a maze.
         Console.WriteLine("Welcome to the Maze game, please select the maze's difficulty.");
-        Console.WriteLine(
-            "Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35) [3] | Grader Must Die (55x55): [4]");
+        Console.WriteLine("Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35) [3] | Grader Must Die (55x55): [4]");
         Console.WriteLine("Warning, Grader Must Die mode will likely not fit the console.");
-
         while (!success)
         {
             int.TryParse(Console.ReadLine(), out int choice);
@@ -40,10 +38,11 @@ public class Program
             }
         }
 
+        // A loop that repeats after 1: Movement, 2: Combat encounter, 3: Inventory management.
         while (maze.GameInProgress)
         {
             Console.Clear();
-
+            // Handles going through the maze and printing each tile based off their attribute.
             for (int yCoord = 0; yCoord < maze.Height; yCoord++)
             {
                 for (int xCoord = 0; xCoord < maze.Width; xCoord++) // test
@@ -89,6 +88,7 @@ public class Program
                 Console.WriteLine();
             }
 
+            // Prints out basic player information.
             Console.WriteLine($"Health: {maze.Player.Health}");
             if (maze.Player.CurrentWeapon != null)
             {
@@ -99,9 +99,9 @@ public class Program
                 Console.WriteLine("Equipped Weapon: None");
             }
 
-
             Console.WriteLine("Press [K] to access inventory");
 
+            // Randomly generates and applies or adds an item to the Player's inventory.
             if (maze.AtItem())
             {
                 Item item = Item.GenerateItem();
@@ -124,14 +124,14 @@ public class Program
             }
 
             ConsoleKey action = Console.ReadKey(true).Key;
-            
+
             // Inventory / Weapon selection system.
             if (action == ConsoleKey.K)
             {
                 Console.Clear();
                 Console.WriteLine("Inventory: ");
                 int i = 1;
-                
+
                 // This is the list we'll be using to store our weapons.
                 List<Weapon> weaponList = new();
                 // This parses through every item in our Inventory list, even though earlier we've made it so only weapons are added. 
@@ -146,13 +146,13 @@ public class Program
 
                     i++;
                 }
-                
-                //Technically, this will always be true because the player starts with a baton.
+
+                // Allows the player to select a weapon to equip if the amount of weapons in their inventory is more than one.
                 if (weaponList.Count > 1)
                 {
                     Console.WriteLine("\n Select a weapon to equip (enter the number): ");
                     // Input validation, ensures input is within range of the current amount of items in inventory.
-                    if (int.TryParse(Console.ReadLine(), out int weaponChoice) && weaponChoice > 0 && weaponChoice <= weaponList.Count) 
+                    if (int.TryParse(Console.ReadLine(), out int weaponChoice) && weaponChoice > 0 && weaponChoice <= weaponList.Count)
                     {
                         Weapon selectedWeapon = weaponList[weaponChoice - 1];
                         maze.Player.EquipWeapon(selectedWeapon);
@@ -169,8 +169,10 @@ public class Program
 
             maze.MovePlayer(action);
 
+            // Displays a combat encounter with a random monster if the player is on a monster tile.
             if (maze.AtMonster())
             {
+                Monster monster = new("", 0, 0);
                 maze.BattleInProgress = true;
                 maze.GameInProgress = false;
                 monster = Monster.GenerateMonster();
@@ -184,7 +186,7 @@ public class Program
                     Console.WriteLine("What do you want to do? [1] Attack | [2] Stun | [3] Identify\n");
 
                     action = Console.ReadKey(true).Key;
-
+                    // Implements the interaction of two ICharacter objects, in this case it's in the form of a fight.
                     switch (action)
                     {
                         case ConsoleKey.D1:
@@ -193,13 +195,12 @@ public class Program
 
                             if (monster.IsStunned)
                             {
-                                Console.WriteLine(
-                                    $"{monster.Name} is stunned, therefore {monster.Name} cannot retaliate!\n");
+                                Console.WriteLine($"{monster.Name} is stunned, therefore {monster.Name} cannot retaliate!\n");
                                 monster.IsStunned = false;
                             }
                             else
                             {
-                                Console.WriteLine($"{monster.Name} retaliates for: 10 Damage!\n");
+                                Console.WriteLine($"{monster.Name} retaliates for: {monster.BaseDam} Damage!\n");
                                 monster.InflictDamage(maze.Player, monster);
                             }
 
@@ -222,6 +223,7 @@ public class Program
                             break;
                     }
 
+                    // If the round ends in any of these two scenarios, they implement their expected outcomes, otherwise a new round of combat is started.
                     if (monster.Health <= 0)
                     {
                         maze.RemoveMonster();
@@ -230,8 +232,12 @@ public class Program
                     }
                     else if (maze.Player.Health <= 0)
                     {
+                        Console.Clear();
                         maze.GameInProgress = false;
                         maze.BattleInProgress = false;
+                        Console.Clear();
+                        Console.WriteLine("You've died, game over.");
+                        Console.WriteLine($"Killed by: {monster.Name}");
                     }
                     else
                     {
@@ -241,18 +247,13 @@ public class Program
                 } while (maze.BattleInProgress);
             }
 
+            // Displays a winning screen if the player reaches the exit. If the player dies, display a game over screen.
             if (maze.AtExit())
             {
                 Console.Clear();
                 Console.WriteLine("You've reached the exit! You win!");
                 Console.WriteLine($"Player Health: {maze.Player.GetHealth()}");
                 maze.GameInProgress = false;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("You've died, game over.");
-                Console.WriteLine($"Killed by: {monster.Name}");
             }
 
             Console.ResetColor();
