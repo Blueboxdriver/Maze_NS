@@ -138,7 +138,7 @@ public class Program
                 foreach (Item item in maze.Player.Inventory)
                 {
                     Console.WriteLine($"{i}: {item.ItemDesc}");
-                    // It would cut down on the code, but I think it's better to show and ensure that ONLY weapons are being added to weaponList
+                    // Removing this if statement would cut down on the code, but I think it's better to show and ensure that ONLY weapons are being added to weaponList
                     if (item is Weapon weapon)
                     {
                         weaponList.Add(weapon);
