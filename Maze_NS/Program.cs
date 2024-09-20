@@ -9,7 +9,7 @@ public class Program
 
         // Prompts the user to create a maze.
         Console.WriteLine("Welcome to the Maze game, please select the maze's difficulty.");
-        Console.WriteLine("Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35) [3] | Grader Must Die (55x55): [4]");
+        Console.WriteLine("Easy mode (15x15): [1] | Moderate mode (25x25): [2] | Hard mode (35x35): [3] | Grader Must Die (55x55): [4]");
         Console.WriteLine("Warning, Grader Must Die mode will likely not fit the console.");
         while (!success)
         {
@@ -137,7 +137,7 @@ public class Program
                 // This parses through every item in our Inventory list, even though earlier we've made it so only weapons are added. 
                 foreach (Item item in maze.Player.Inventory)
                 {
-                    Console.WriteLine($"{i}: {item.ItemDesc}");
+                    Console.WriteLine($"{i}: {item.ItemDesc} | Damage: {item.ItemEffect}");
                     // Removing this if statement would cut down on the code, but I think it's better to show and ensure that ONLY weapons are being added to weaponList
                     if (item is Weapon weapon)
                     {
