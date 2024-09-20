@@ -177,13 +177,25 @@ public class Maze : Tile
             case ConsoleKey.W:
                 newYCoord--;
                 break;
+            case ConsoleKey.UpArrow:
+                newYCoord--;
+                break;
             case ConsoleKey.S:
+                newYCoord++;
+                break;
+            case ConsoleKey.DownArrow:
                 newYCoord++;
                 break;
             case ConsoleKey.A:
                 newXCoord--;
                 break;
+            case ConsoleKey.LeftArrow:
+                newXCoord--;
+                break;
             case ConsoleKey.D:
+                newXCoord++;
+                break;
+            case ConsoleKey.RightArrow:
                 newXCoord++;
                 break;
         }
