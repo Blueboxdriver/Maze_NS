@@ -26,14 +26,13 @@ public abstract class Item
     /// </summary>
     private static readonly List<Item> _items =
     [
-        new Potion("Half empty K-Corp Ampule",
-            "You found a Half Empty K-Corp Ampule! This miracle drug originates from K-Corp's singularity. Some of the liquid leaked out of this Ampule. ",
-            25),
-        new Potion("Full K-Corp Ampule",
-            "You found a Full K-Corp Ampule! Incredibly valuable in the backstreets, this full K-Corp Ampule can cure anything.",
-            50),
+        new Potion("Bandage", "You found a bandage, at least it's better than nothing.", 25),
+        new Potion("Half empty K-Corp Ampule", "You found a Half Empty K-Corp Ampule! This miracle drug originates from K-Corp's singularity. Some of the liquid leaked out of this Ampule. ", 50),
+        new Potion("Full K-Corp Ampule", "You found a Full K-Corp Ampule! Incredibly valuable in the backstreets, this full K-Corp Ampule can cure anything.", 100),
         new Weapon("Stigma Workshop Longsword", "You found a Stigma Workshop weapon! It's warm to the touch.", 15),
-        new Weapon("Atelier Logic Handgun", "You found a Atelier Logic Handgun! Fortunately, it came with bullets.", 20)
+        new Weapon("Atelier Logic Handgun", "You found a Atelier Logic Handgun! Fortunately, it came with bullets.", 20),
+        new Weapon("Zelkova Workshop Mace", "You found a Zelkova Workshop Mace! Go bash something in the skull with it", 12),
+        new Weapon("Rosespanner Workshop Spear", "You found a Rosespanner Workshop Spear! The chain on the end spurs to life, begging for a target.", 25)
     ];
 
     /// <summary>

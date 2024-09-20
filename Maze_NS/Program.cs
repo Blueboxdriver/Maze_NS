@@ -45,7 +45,7 @@ public class Program
             // Handles going through the maze and printing each tile based off their attribute.
             for (int yCoord = 0; yCoord < maze.Height; yCoord++)
             {
-                for (int xCoord = 0; xCoord < maze.Width; xCoord++) // test
+                for (int xCoord = 0; xCoord < maze.Width; xCoord++)
                 {
                     Tile tile = maze.Tiles[yCoord, xCoord];
                     string output;
@@ -147,7 +147,7 @@ public class Program
                     i++;
                 }
 
-                // Allows the player to select a weapon to equip if the amount of weapons in their inventory is more than one.
+                // Allows the player to equip a weapon if the amount of weapons in their inventory is more than one.
                 if (weaponList.Count > 1)
                 {
                     Console.WriteLine("\n Select a weapon to equip (enter the number): ");
